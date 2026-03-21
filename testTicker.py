@@ -31,7 +31,6 @@ default_enctoken = "QATlhG13qRpXA+/9gAHpEeNGdqXE7tSZXa5rXrbTqXwGAOxkik0pBETlgrJb
 ENCTOKEN = st.text_input("Enter enctoken",value = default_enctoken, type="password")
 USER_ID = st.sidebar.text_input("User ID",value ="ZM1064")
 api_key = st.secrets['API_KEY']
-api_key = st.sidebar.text_input("enter your Key", value=api_key)
 
 if st.button("Connect Ticker") and not st.session_state.ticker_started:
     start_kite_ticker(token_input)
