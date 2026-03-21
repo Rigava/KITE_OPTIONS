@@ -11,17 +11,17 @@ if 'ticker_started' not in st.session_state:
 NIFTY_SYMBOL = "NSE:NIFTY 50"
 NIFTY_TOKEN = 256265
 # 2. Define the KiteTicker Callback
-def on_connect(ws, response):
-    # This MUST be called to start receiving data
-    ws.subscribe([NIFTY_TOKEN])
-    ws.set_mode(ws.MODE_LTP, [NIFTY_TOKEN])
+
 def on_ticks(ws, ticks):
     # Update the session state with the new NIFTY price
-    # NIFTY 50 instrument token is usually 256265
     global ltp_data
     for tick in ticks:
         if tick['instrument_token'] == [NIFTY_TOKEN]:
             ltp_data = tick['last_price']
+def on_connect(ws, response):
+    # This MUST be called to start receiving data
+    ws.subscribe([NIFTY_TOKEN])
+    ws.set_mode(ws.MODE_LTP, [NIFTY_TOKEN])
 
 # 3. Function to start the Ticker in a background thread
 def start_kite_ticker(enctoken):
@@ -41,6 +41,7 @@ api_key = st.secrets['API_KEY']
 
 if st.button("Connect Ticker") and not st.session_state.ticker_started:
     start_kite_ticker(ENCTOKEN)
+    print(ltp_data)
 
 # 5. Live Display Loop
 placeholder = st.empty()
