@@ -7,7 +7,7 @@ from datetime import datetime
 
 # ---------------- CONFIG ---------------- #
 # Load configuration
-ENCTOKEN = "Sx88HTh8paFtXgtfRH13f4v/FDuPW1yjbNkbG7Abpi9skbVuqusDDRLfUEs2c04/4fllQytfjsdEtepiJhtfqTWf/xSB7mi9DKpdxEyXpMTi4QdATiRLMw=="
+ENCTOKEN = st.text_input("Enter the ENCTOKEN")
 USER_ID = "ZM1064"
 # with open("loginCredential.json") as f:
 #     login_credential = json.load(f)
