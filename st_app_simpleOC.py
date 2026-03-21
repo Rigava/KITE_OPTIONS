@@ -4,15 +4,27 @@ import numpy as np
 import time
 from kiteconnect import KiteTicker, KiteConnect
 from datetime import datetime
+from streamlit_autorefresh import st_autorefresh
 
 # ---------------- CONFIG ---------------- #
 # Load configuration
-ENCTOKEN = st.text_input("Enter the ENCTOKEN")
-USER_ID = "ZM1064"
-# with open("loginCredential.json") as f:
-#     login_credential = json.load(f)
-api_key = "hmoh6luxizaqyl2y"
-# login_credential["api_key"]
+default_enctoken = "QATlhG13qRpXA+/9gAHpEeNGdqXE7tSZXa5rXrbTqXwGAOxkik0pBETlgrJb07Md2ElvNL0VEbFt/yGZoqQ9B2xBpNDuNkZcoEaE8nZ/B57zCAf08wughA=="
+# ---------------- USER INPUT ---------------- #
+st.sidebar.header("🔐 Kite Credentials")
+
+ENCTOKEN = st.sidebar.text_input("ENCTOKEN",value=default_enctoken ,type="password")
+USER_ID = st.sidebar.text_input("User ID",value ="ZM1064")
+api_key = st.sidebar.text_input("API Key",value="hmoh6luxizaqyl2y")
+
+start_button = st.sidebar.button("🚀 Start Live Data")
+
+# ---------------- VALIDATION ---------------- #
+def inputs_valid():
+    return all([
+        ENCTOKEN is not None and ENCTOKEN != "",
+        USER_ID is not None and USER_ID != "",
+        api_key is not None and api_key != ""
+    ])
 INDEX = "NIFTY"
 INDEX_TOKEN = 256265
 
@@ -118,12 +130,17 @@ st.write("Weekly Expiry:", expiry)
 st.write("Total Option Contracts:", len(options_df))
 
 # Start websocket only once
-if "ws_started" not in st.session_state:
-    token_list = options_df.instrument_token.tolist()
-    token_list.append(INDEX_TOKEN)
-    st.write("Total subsrcibed:", len(token_list))
-    start_ws(token_list)
-    st.session_state.ws_started = True
+if start_button:
+    if not inputs_valid():
+        st.error("Please enter all credentials before starting.")
+        st.stop()
+    if "ws_started" not in st.session_state:
+        token_list = options_df.instrument_token.tolist()
+        token_list.append(INDEX_TOKEN)
+        st.write("Total subscribed:", len(token_list))
+        start_ws(token_list)
+        st.session_state.ws_started = True
+        st.success("WebSocket started successfully!")
 
 # Wait for data
 if len(st.session_state.ltp_data) == 0:
@@ -157,5 +174,4 @@ st.dataframe(chain[
 ].sort_values("strike"))
 
 # Auto refresh
-time.sleep(REFRESH_INTERVAL)
-st.rerun()
+st_autorefresh(interval=REFRESH_INTERVAL * 1000)
