@@ -3,4 +3,4 @@ numpy
 kiteconnect
 pyarrow
 plotly
-streamlit-autorefresh
+
