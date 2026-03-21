@@ -33,7 +33,7 @@ USER_ID = st.sidebar.text_input("User ID",value ="ZM1064")
 api_key = st.secrets['API_KEY']
 
 if st.button("Connect Ticker") and not st.session_state.ticker_started:
-    start_kite_ticker(token_input)
+    start_kite_ticker(ENCTOKEN)
 
 # 5. Live Display Loop
 placeholder = st.empty()
