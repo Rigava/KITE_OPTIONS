@@ -4,7 +4,7 @@ import numpy as np
 import time
 from kiteconnect import KiteTicker, KiteConnect
 from datetime import datetime
-# from streamlit_autorefresh import st_autorefresh
+from streamlit_autorefresh import st_autorefresh
 # ---------------- CONFIG ---------------- #
 INDEX = "NIFTY"
 INDEX_TOKEN = 256265
@@ -15,8 +15,8 @@ STRIKE_RANGE = 500     # +/- range around spot
 ltp_data_global = {}
 spot_price_global = None
 
-if "ws_started" not in st.session_state:
-    st.session_state.ws_started = False
+# if "ws_started" not in st.session_state:
+#     st.session_state.ws_started = False
     
 # ---------------- STREAMLIT UI ---------------- #
 st.set_page_config(layout="wide")
@@ -138,7 +138,7 @@ if not st.session_state.ws_started:
     st.stop()
 
 # ---------------- AUTO REFRESH ---------------- #
-# st_autorefresh(interval=REFRESH_INTERVAL * 1000, key="refresh")
+st_autorefresh(interval=REFRESH_INTERVAL * 1000, key="refresh")
 
 # ---------------- LOAD DATA ---------------- #
 df = load_instruments()
