@@ -27,7 +27,8 @@ default_enctoken = "QATlhG13qRpXA+/9gAHpEeNGdqXE7tSZXa5rXrbTqXwGAOxkik0pBETlgrJb
 st.sidebar.header("🔐 Kite Credentials")
 ENCTOKEN = st.sidebar.text_input("ENCTOKEN",value=default_enctoken ,type="password")
 USER_ID = st.sidebar.text_input("User ID",value ="ZM1064")
-api_key = st.sidebar.text_input("API Key",value="hmoh6luxizaqyl2y")
+API_KEY = st.secrets['API_KEY']
+api_key = st.sidebar.text_input("API Key",value=API_KEY)
 
 start_button = st.sidebar.button("🚀 Start Live Data")
 stop_button = st.sidebar.button("🛑 Stop")
