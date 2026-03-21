@@ -151,7 +151,7 @@ if len(ltp_data_global) == 0:
 
 if spot_price_global is None:
     st.warning("Waiting for spot price...")
-    st.stop()stop()
+    st.stop()
 
 # Apply strike filter AFTER spot available
 options_df = filter_strikes(options_df, st.session_state.spot_price)
