@@ -15,8 +15,8 @@ STRIKE_RANGE = 500     # +/- range around spot
 ltp_data_global = {}
 spot_price_global = None
 
-# if "ws_started" not in st.session_state:
-#     st.session_state.ws_started = False
+if "ws_started" not in st.session_state:
+    st.session_state.ws_started = False
     
 # ---------------- STREAMLIT UI ---------------- #
 st.set_page_config(layout="wide")
