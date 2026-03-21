@@ -112,7 +112,7 @@ st.title("📊 Simple Options Dashboard")
 
 # Load instruments
 df = load_instruments()
-st.success("Loaded all the instruments:", len(df))
+st.success(f"Loaded all the instruments: {len(df)}")
 options_df, expiry = get_weekly_options(df, INDEX)
 st.write("Weekly Expiry:", expiry)
 st.write("Total Option Contracts:", len(options_df))
