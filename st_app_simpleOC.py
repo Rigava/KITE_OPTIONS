@@ -28,7 +28,7 @@ st.sidebar.header("🔐 Kite Credentials")
 ENCTOKEN = st.sidebar.text_input("ENCTOKEN",value=default_enctoken ,type="password")
 USER_ID = st.sidebar.text_input("User ID",value ="ZM1064")
 API_KEY = st.secrets['API_KEY']
-api_key = st.sidebar.text_input("API Key",value=API_KEY)
+# api_key = st.sidebar.text_input("API Key",value=API_KEY)
 
 start_button = st.sidebar.button("🚀 Start Live Data")
 stop_button = st.sidebar.button("🛑 Stop")
@@ -87,7 +87,7 @@ def start_ws(token_list):
         print(f"Closed: {code} - {reason}")
         st.session_state.ws_started = False
 
-    kws = KiteTicker(api_key, ENCTOKEN + "&user_id=" + USER_ID)
+    kws = KiteTicker(API_KEY, ENCTOKEN + "&user_id=" + USER_ID)
     kws.on_ticks = on_ticks
     kws.on_connect = on_connect
     kws.on_close = on_close
