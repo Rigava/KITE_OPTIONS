@@ -28,7 +28,6 @@ st.sidebar.header("🔐 Kite Credentials")
 ENCTOKEN = st.sidebar.text_input("ENCTOKEN",value=default_enctoken ,type="password")
 USER_ID = st.sidebar.text_input("User ID",value ="ZM1064")
 API_KEY = st.secrets['API_KEY']
-# api_key = st.sidebar.text_input("API Key",value=API_KEY)
 
 start_button = st.sidebar.button("🚀 Start Live Data")
 stop_button = st.sidebar.button("🛑 Stop")
@@ -107,7 +106,7 @@ def stop_ws():
 
 # ---------------- VALIDATION ---------------- #
 def inputs_valid():
-    return all([ENCTOKEN, USER_ID, api_key])
+    return all([ENCTOKEN, USER_ID, API_KEY])
 
 # ---------------- CONTROL FLOW ---------------- #
 if start_button:
