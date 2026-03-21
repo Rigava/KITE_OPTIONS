@@ -4,7 +4,7 @@ import numpy as np
 import time
 from kiteconnect import KiteTicker, KiteConnect
 from datetime import datetime
-# from streamlit_autorefresh import st_autorefresh
+from streamlit_autorefresh import st_autorefresh
 # ---------------- CONFIG ---------------- #
 INDEX = "NIFTY"
 INDEX_TOKEN = 256265
