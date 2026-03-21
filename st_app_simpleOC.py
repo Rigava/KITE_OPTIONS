@@ -15,7 +15,7 @@ api_key = "hmoh6luxizaqyl2y"
 # login_credential["api_key"]
 INDEX = "NIFTY"
 INDEX_TOKEN = 256265
-df_instruments = pd.read_csv("https://api.kite.trade/instruments")
+
 
 INDEX = "NIFTY"
 INDEX_TOKEN = 256265
@@ -112,7 +112,7 @@ st.title("📊 Simple Options Dashboard")
 
 # Load instruments
 df = load_instruments()
-st.success("Loaded all the instruments:", len(df_instruments))
+st.success("Loaded all the instruments:", len(df))
 options_df, expiry = get_weekly_options(df, INDEX)
 st.write("Weekly Expiry:", expiry)
 st.write("Total Option Contracts:", len(options_df))
