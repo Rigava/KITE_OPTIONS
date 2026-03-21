@@ -1,7 +1,7 @@
 import streamlit as st
 import threading
 import time
-
+from kiteconnect import KiteTicker, KiteConnect
 
 # 1. Setup Session State to store the latest NIFTY price
 if 'nifty_ltp' not in st.session_state:
