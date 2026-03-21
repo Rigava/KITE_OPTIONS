@@ -17,6 +17,7 @@ USER_ID = st.sidebar.text_input("User ID",value ="ZM1064")
 api_key = st.sidebar.text_input("API Key",value="hmoh6luxizaqyl2y")
 
 start_button = st.sidebar.button("🚀 Start Live Data")
+stop_button = st.sidebar.button("🛑 Stop")
 
 # ---------------- VALIDATION ---------------- #
 def inputs_valid():
@@ -32,7 +33,7 @@ INDEX_TOKEN = 256265
 INDEX = "NIFTY"
 INDEX_TOKEN = 256265
 
-REFRESH_INTERVAL = 120  # seconds
+REFRESH_INTERVAL = 60  # seconds
 
 # ---------------- STATE ---------------- #
 if "ltp_data" not in st.session_state:
@@ -141,6 +142,9 @@ if start_button:
         start_ws(token_list)
         st.session_state.ws_started = True
         st.success("WebSocket started successfully!")
+    if stop_button:
+        st.session_state.clear()
+        st.rerun()
 
 # Wait for data
 if len(st.session_state.ltp_data) == 0:
@@ -174,6 +178,6 @@ st.dataframe(chain[
 ].sort_values("strike"))
 
 # Auto refresh
-time.sleep(REFRESH_INTERVAL)
+time.sleep(REFRESH_INTERVAL*1000)
 st.rerun()
 # st_autorefresh(interval=REFRESH_INTERVAL * 1000)
