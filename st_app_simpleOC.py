@@ -9,8 +9,8 @@ from datetime import datetime
 # Load configuration
 ENCTOKEN = "Sx88HTh8paFtXgtfRH13f4v/FDuPW1yjbNkbG7Abpi9skbVuqusDDRLfUEs2c04/4fllQytfjsdEtepiJhtfqTWf/xSB7mi9DKpdxEyXpMTi4QdATiRLMw=="
 USER_ID = "ZM1064"
-with open("loginCredential.json") as f:
-    login_credential = json.load(f)
+# with open("loginCredential.json") as f:
+#     login_credential = json.load(f)
 api_key = "hmoh6luxizaqyl2y"
 # login_credential["api_key"]
 INDEX = "NIFTY"
