@@ -13,11 +13,12 @@ from metrics import get_atm_strike,atm_window,atm_straddle,calculate_pcr, get_ma
 # Load configuration
 ltp_data = {}
 spot_price = None
-ENCTOKEN = "Sx88HTh8paFtXgtfRH13f4v/FDuPW1yjbNkbG7Abpi9skbVuqusDDRLfUEs2c04/4fllQytfjsdEtepiJhtfqTWf/xSB7mi9DKpdxEyXpMTi4QdATiRLMw=="
-USER_ID = "ZM1064"
-with open("loginCredential.json") as f:
-    login_credential = json.load(f)
-api_key = login_credential["api_key"]
+# 4. Streamlit UI INPUT Layout
+st.title("NIFTY 50 Live Tracker")
+default_enctoken = "QATlhG13qRpXA+/9gAHpEeNGdqXE7tSZXa5rXrbTqXwGAOxkik0pBETlgrJb07Md2ElvNL0VEbFt/yGZoqQ9B2xBpNDuNkZcoEaE8nZ/B57zCAf08wughA=="
+ENCTOKEN = st.sidebar.text_input("Enter enctoken",value = default_enctoken, type="password")
+USER_ID = st.sidebar.text_input("User ID",value ="ZM1064")
+api_key = st.secrets['API_KEY']
 INDEX = "NIFTY"
 INDEX_TOKEN = 256265
 df_instruments = pd.read_csv("https://api.kite.trade/instruments")
@@ -65,12 +66,7 @@ kws.on_connect = on_connect
 
 kws.connect(threaded=True)
 
-# 4. Streamlit UI INPUT Layout
-st.title("NIFTY 50 Live Tracker")
-default_enctoken = "QATlhG13qRpXA+/9gAHpEeNGdqXE7tSZXa5rXrbTqXwGAOxkik0pBETlgrJb07Md2ElvNL0VEbFt/yGZoqQ9B2xBpNDuNkZcoEaE8nZ/B57zCAf08wughA=="
-ENCTOKEN = st.sidebar.text_input("Enter enctoken",value = default_enctoken, type="password")
-USER_ID = st.sidebar.text_input("User ID",value ="ZM1064")
-api_key = st.secrets['API_KEY']
+
 
 # 5. Live Display Loop
 placeholder = st.empty()
