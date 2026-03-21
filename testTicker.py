@@ -8,8 +8,13 @@ if 'nifty_ltp' not in st.session_state:
     st.session_state.nifty_ltp = 0.0
 if 'ticker_started' not in st.session_state:
     st.session_state.ticker_started = False
-
+# Instrument token for NIFTY 50 is 256265
+nifty_token = 256265
 # 2. Define the KiteTicker Callback
+def on_connect(ws, response):
+    # This MUST be called to start receiving data
+    ws.subscribe([nifty_token])
+    ws.set_mode(ws.MODE_LTP, [nifty_token])
 def on_ticks(ws, ticks):
     # Update the session state with the new NIFTY price
     # NIFTY 50 instrument token is usually 256265
