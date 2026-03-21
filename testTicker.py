@@ -39,9 +39,9 @@ ENCTOKEN = st.sidebar.text_input("Enter enctoken",value = default_enctoken, type
 USER_ID = st.sidebar.text_input("User ID",value ="ZM1064")
 api_key = st.secrets['API_KEY']
 
-if st.button("Connect Ticker") and st.session_state.ticker_started:
+if st.button("Connect Ticker") and not st.session_state.ticker_started:
     start_kite_ticker(ENCTOKEN)
-    print(ltp_data)
+    st.write(ltp_data)
 
 # 5. Live Display Loop
 placeholder = st.empty()
