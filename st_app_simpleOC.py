@@ -11,12 +11,9 @@ INDEX_TOKEN = 256265
 REFRESH_INTERVAL = 10  # seconds
 STRIKE_RANGE = 500     # +/- range around spot
 
-# ---------------- SESSION STATE ---------------- #
-if "ltp_data" not in st.session_state:
-    st.session_state.ltp_data = {}
-
-if "spot_price" not in st.session_state:
-    st.session_state.spot_price = None
+# ---------------- GLOBAL STORE (THREAD SAFE) ---------------- #
+ltp_data_global = {}
+spot_price_global = None:
 
 if "ws_started" not in st.session_state:
     st.session_state.ws_started = False
@@ -60,20 +57,27 @@ def filter_strikes(options_df, spot):
 
 # ---------------- WEBSOCKET ---------------- #
 def start_ws(token_list):
+
+    global ltp_data_global, spot_price_global
+
     if "kws" in st.session_state:
-        return  # prevent multiple connections
+        return
+
     def on_ticks(ws, ticks):
+        global ltp_data_global, spot_price_global
+
         for tick in ticks:
             token = tick["instrument_token"]
 
             if token == INDEX_TOKEN:
-                st.session_state.spot_price = tick["last_price"]
+                spot_price_global = tick["last_price"]
             else:
-                st.session_state.ltp_data[token] = {
+                ltp_data_global[token] = {
                     "ltp": tick["last_price"],
                     "oi": tick["oi"],
                     "volume": tick.get("volume", 0)
                 }
+
     def on_connect(ws, response):
         ws.subscribe(token_list)
         ws.set_mode(ws.MODE_FULL, token_list)
@@ -99,8 +103,6 @@ def stop_ws():
         del st.session_state.kws
 
     st.session_state.ws_started = False
-    st.session_state.ltp_data = {}
-    st.session_state.spot_price = None
 
 # ---------------- VALIDATION ---------------- #
 def inputs_valid():
@@ -143,9 +145,13 @@ df = load_instruments()
 options_df, expiry = get_weekly_options(df, INDEX)
 
 # Wait for data
-if len(st.session_state.ltp_data) == 0:
+if len(ltp_data_global) == 0:
     st.warning("Waiting for live data...")
     st.stop()
+
+if spot_price_global is None:
+    st.warning("Waiting for spot price...")
+    st.stop()stop()
 
 # Apply strike filter AFTER spot available
 options_df = filter_strikes(options_df, st.session_state.spot_price)
@@ -153,7 +159,7 @@ options_df = filter_strikes(options_df, st.session_state.spot_price)
 # ---------------- BUILD OPTION CHAIN ---------------- #
 def build_option_chain(options_df):
 
-    live_df = pd.DataFrame(st.session_state.ltp_data).T
+    live_df = pd.DataFrame(ltp_data_global).T
 
     if len(live_df) == 0:
         return None
@@ -177,7 +183,7 @@ def build_option_chain(options_df):
 
 chain = build_option_chain(options_df)
 
-if chain is None or st.session_state.spot_price is None:
+if chain is None:
     st.warning("Building option chain...")
     st.stop()
 
@@ -195,7 +201,7 @@ def atm_straddle(chain, atm):
     row = chain[chain.strike == atm]
     return row["ltp_CE"].values[0] + row["ltp_PE"].values[0]
 
-spot = st.session_state.spot_price
+spot = spot_price_global
 atm = get_atm(chain, spot)
 pcr = calculate_pcr(chain)
 straddle = atm_straddle(chain, atm)
