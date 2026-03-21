@@ -13,7 +13,7 @@ STRIKE_RANGE = 500     # +/- range around spot
 
 # ---------------- GLOBAL STORE (THREAD SAFE) ---------------- #
 ltp_data_global = {}
-spot_price_global = None:
+spot_price_global = None
 
 if "ws_started" not in st.session_state:
     st.session_state.ws_started = False
