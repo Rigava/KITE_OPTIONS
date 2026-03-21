@@ -4,7 +4,7 @@ import numpy as np
 import time
 from kiteconnect import KiteTicker, KiteConnect
 from datetime import datetime
-from streamlit_autorefresh import st_autorefresh
+# from streamlit_autorefresh import st_autorefresh
 
 # ---------------- CONFIG ---------------- #
 # Load configuration
@@ -174,4 +174,6 @@ st.dataframe(chain[
 ].sort_values("strike"))
 
 # Auto refresh
-st_autorefresh(interval=REFRESH_INTERVAL * 1000)
+time.sleep(REFRESH_INTERVAL)
+st.rerun()
+# st_autorefresh(interval=REFRESH_INTERVAL * 1000)
