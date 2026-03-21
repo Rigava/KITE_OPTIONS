@@ -6,9 +6,9 @@ import sys
 import os
 from datetime import datetime
 
-from analytics.option_chain import build_option_chain, create_option_chain
-from analytics.metrics import get_atm_strike,atm_window,atm_straddle,calculate_pcr, get_max_pain
-from storage.db import save_snapshot
+from option_chain import build_option_chain, create_option_chain
+from metrics import get_atm_strike,atm_window,atm_straddle,calculate_pcr, get_max_pain
+
 
 # Load configuration
 ltp_data = {}
@@ -102,14 +102,13 @@ while True:
         pcr_atm_chain = None
         straddle = None
 
-    save_snapshot(atm_chain, spot_price, max_pain)
 
-    print("Saved snapshot")
-    print("\n------", datetime.now(), "------")
-    print("Spot:", round(spot_price,2))
-    print("ATM:", atm)
-    print("Max Pain:", max_pain)
-    print("PCR Overall:", round(pcr,2) if pcr is not None else None)
+    # print("Saved snapshot")
+    st.write("\n------", datetime.now(), "------")
+    st.write("Spot:", round(spot_price,2))
+    st.write("ATM:", atm)
+    st.write("Max Pain:", max_pain)
+    st.write("PCR Overall:", round(pcr,2) if pcr is not None else None)
     print("PCR ATM Window:", round(pcr_atm_chain,2) if pcr_atm_chain is not None else None)
     print("Straddle:", round(straddle,2) if straddle is not None else None)
 
