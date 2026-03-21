@@ -30,7 +30,8 @@ st.title("NIFTY 50 Live Tracker")
 default_enctoken = "QATlhG13qRpXA+/9gAHpEeNGdqXE7tSZXa5rXrbTqXwGAOxkik0pBETlgrJb07Md2ElvNL0VEbFt/yGZoqQ9B2xBpNDuNkZcoEaE8nZ/B57zCAf08wughA=="
 ENCTOKEN = st.text_input("Enter enctoken",value = default_enctoken, type="password")
 USER_ID = st.sidebar.text_input("User ID",value ="ZM1064")
-api_key = st.sidebar.text_input("API Key",value="hmoh6luxizaqyl2y")
+api_key = st.secrets['API_KEY]
+api_key = st.sidebar.text_input("enter your Key", value=api_key)
 
 if st.button("Connect Ticker") and not st.session_state.ticker_started:
     start_kite_ticker(token_input)
@@ -41,4 +42,4 @@ placeholder = st.empty()
 while st.session_state.ticker_started:
     with placeholder.container():
         st.metric(label="NIFTY 50", value=f"₹ {st.session_state.nifty_ltp}")
-    time.sleep(1) # Refresh UI every second
+    time.sleep(60) # Refresh UI every second
