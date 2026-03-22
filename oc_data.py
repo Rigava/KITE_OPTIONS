@@ -8,6 +8,8 @@ import os
 from datetime import datetime
 from option_chain import build_option_chain, create_option_chain
 from metrics import get_atm_strike,atm_window,atm_straddle,calculate_pcr, get_max_pain
+#Set streamlit wide
+st.set_page_config(layout="wide")
 
 def save_snapshot(existing_df, df):
     if df is None or len(df) == 0:
