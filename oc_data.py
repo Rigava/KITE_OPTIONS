@@ -8,8 +8,6 @@ import os
 from datetime import datetime
 from option_chain import build_option_chain, create_option_chain
 from metrics import get_atm_strike,atm_window,atm_straddle,calculate_pcr, get_max_pain
-from streamlit_autorefresh import st_autorefresh
-
 
 def save_snapshot(existing_df, df):
     if df is None or len(df) == 0:
@@ -86,8 +84,7 @@ kws.connect(threaded=True)
 placeholder = st.empty()
 # exist_df = st.session_state.history_df
 exist_df = pd.DataFrame()
-#refresh every 5 minutes
-# st_autorefresh(interval=1 * 60 * 1000, key="global_refresh")
+#refresh every 5 minutes# st_autorefresh(interval=1 * 60 * 1000, key="global_refresh")
 while True:
         
     with placeholder.container():
