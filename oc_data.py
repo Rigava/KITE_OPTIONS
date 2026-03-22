@@ -137,7 +137,7 @@ while True:
     st.write("OI Trend")
     trend = strike_df.set_index("timestamp")[["oi_CE","oi_PE"]]
     st.line_chart(trend)
-    time.sleep(60)
+    time.sleep(10)
 
 
 # Final working pattern
