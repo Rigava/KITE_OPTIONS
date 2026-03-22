@@ -6,8 +6,8 @@ import pandas as pd
 import sys
 import os
 from datetime import datetime
-from analytics.option_chain import build_option_chain, create_option_chain
-from analytics.metrics import get_atm_strike,atm_window,atm_straddle,calculate_pcr, get_max_pain
+from option_chain import build_option_chain, create_option_chain
+from metrics import get_atm_strike,atm_window,atm_straddle,calculate_pcr, get_max_pain
 from streamlit_autorefresh import st_autorefresh
 
 
