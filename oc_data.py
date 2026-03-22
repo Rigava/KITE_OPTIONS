@@ -130,8 +130,9 @@ while True:
     st.write("PCR ATM Window:", round(pcr_atm_chain,2) if pcr_atm_chain is not None else None)
     st.write("Straddle:", round(straddle,2) if straddle is not None else None)
     #================================ Strike selector Trends========================================
-    strikes = sorted(exist_df["strike"].unique())
-    selected_strikes = st.multiselect("Select Strike Prices",strikes, default=strikes[10])
+    # strikes = sorted(exist_df["strike"].unique())
+    # selected_strikes = st.multiselect("Select Strike Prices",strikes, default=strikes[10])
+    selected_strikes = [23100]
     for strike in selected_strikes:
         st.subheader(f"Strike {strike}")
         strike_df = exist_df[exist_df["strike"] == strike].sort_values("timestamp")
