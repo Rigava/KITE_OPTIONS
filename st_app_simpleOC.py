@@ -22,7 +22,7 @@ if "ws_started" not in st.session_state:
 st.set_page_config(layout="wide")
 st.title("📊 Simple Options Dashboard")
 # SIDEBAR ---------------- USER INPUT ---------------- #
-default_enctoken = "QATlhG13qRpXA+/9gAHpEeNGdqXE7tSZXa5rXrbTqXwGAOxkik0pBETlgrJb07Md2ElvNL0VEbFt/yGZoqQ9B2xBpNDuNkZcoEaE8nZ/B57zCAf08wughA=="
+default_enctoken = "Jq9GV9Bv1JZzWecGGhTnCO5nyDeIa//jaE/DsQ9n3zKKokeiWMA+yRyOXYgofs2sXJZvb+nlMpivri51CqSIuSGntCfsRsoGQ/wsJ4xPwi7JCt5x6BXnzA=="
 
 st.sidebar.header("🔐 Kite Credentials")
 ENCTOKEN = st.sidebar.text_input("ENCTOKEN",value=default_enctoken ,type="password")
