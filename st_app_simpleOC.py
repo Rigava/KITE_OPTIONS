@@ -138,7 +138,7 @@ if not st.session_state.ws_started:
     st.stop()
 
 # ---------------- AUTO REFRESH ---------------- #
-# st_autorefresh(interval=REFRESH_INTERVAL * 1000, key="refresh")
+st_autorefresh(interval=REFRESH_INTERVAL * 1000, key="refresh")
 
 # ---------------- LOAD DATA ---------------- #
 df = load_instruments()
@@ -163,7 +163,7 @@ while len(ltp_data_global) == 0 or spot_price_global is None:
 
     time.sleep(0.5)
 # Apply strike filter AFTER spot available
-options_df = filter_strikes(options_df, st.session_state.spot_price)
+options_df = filter_strikes(options_df, st.session_state.spot_price_global)
 
 # ---------------- BUILD OPTION CHAIN ---------------- #
 def build_option_chain(options_df):
