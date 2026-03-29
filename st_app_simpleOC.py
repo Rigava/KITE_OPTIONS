@@ -145,14 +145,23 @@ df = load_instruments()
 options_df, expiry = get_weekly_options(df, INDEX)
 
 # Wait for data
-if len(ltp_data_global) == 0:
-    st.warning("Waiting for live data...")
-    st.stop()
+# if len(ltp_data_global) == 0:
+#     st.warning("Waiting for live data...")
+#     st.stop()
 
-if spot_price_global is None:
-    st.warning("Waiting for spot price...")
-    st.stop()
+# if spot_price_global is None:
+#     st.warning("Waiting for spot price...")
+#     st.stop()
+import time
+timeout = 5
+start_time = time.time()
 
+while len(ltp_data_global) == 0 or spot_price_global is None:
+    if time.time() - start_time > timeout:
+        st.warning("Still waiting for live data...")
+        st.stop()
+
+    time.sleep(0.5)
 # Apply strike filter AFTER spot available
 options_df = filter_strikes(options_df, st.session_state.spot_price)
 
