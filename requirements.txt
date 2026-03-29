@@ -5,3 +5,4 @@ pyarrow
 plotly
 streamlit_autorefresh
 altair<5
+imghdr
