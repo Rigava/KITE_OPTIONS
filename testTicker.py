@@ -83,7 +83,7 @@ def combined_flow(row):
 def load_and_process(file, window):
     df = pd.read_csv(file)
     # Time + sort
-    # df["timestamp"] = pd.to_datetime(df["timestamp"])
+    # df["Datetime"] = pd.to_datetime(df["Datetime"])
     df = df.sort_values(["strike", "Datetime"])
 
     # =========================
@@ -224,8 +224,8 @@ col4.metric("Gamma", df["gamma_state"].iloc[-1])
 # SPOT VS MAX PAIN
 # =========================
 fig1 = go.Figure()
-fig1.add_trace(go.Scatter(x=df["timestamp"], y=df["spot"], name="Spot"))
-fig1.add_trace(go.Scatter(x=df["timestamp"], y=df["max_pain"], name="Max Pain"))
+fig1.add_trace(go.Scatter(x=df["Datetime"], y=df["spot"], name="Spot"))
+fig1.add_trace(go.Scatter(x=df["Datetime"], y=df["max_pain"], name="Max Pain"))
 
 st.plotly_chart(fig1, use_container_width=True)
 
@@ -233,7 +233,7 @@ st.plotly_chart(fig1, use_container_width=True)
 # HEATMAP (PUT OI FLOW)
 # =========================
 heatmap = df.pivot_table(
-    index="timestamp",
+    index="Datetime",
     columns="strike",
     values="oi_pe_roll",
     aggfunc="sum"
@@ -247,7 +247,7 @@ st.plotly_chart(fig2, use_container_width=True)
 # =========================
 fig3 = px.scatter(
     df,
-    x="timestamp",
+    x="Datetime",
     y="spot",
     color="regime",
     symbol="fake_breakout",
@@ -270,9 +270,9 @@ st.plotly_chart(fig5, use_container_width=True)
 #=========================
 #OC LATEST VIEW
 #=========================
-# Filter for latest timestamp
-st.write(f"Last Updated: {df.timestamp.max().strftime('%Y-%m-%d %H:%M:%S')}")
-latest = df[df.timestamp == df.timestamp.max()]
+# Filter for latest Datetime
+st.write(f"Last Updated: {df.Datetime.max().strftime('%Y-%m-%d %H:%M:%S')}")
+latest = df[df.Datetime == df.Datetime.max()]
 spot = latest["spot"].iloc[0]
 max_pain = latest["max_pain"].iloc[0]
 chain = latest.sort_values("strike")
@@ -293,15 +293,15 @@ with st.expander("Option Chain Details"):
 # =========================
 st.subheader("📄 Regime view - SMART MONEY")
 # Identify ATM (nearest strike to spot)>Select range around ATM (e.g. ATM ± 2 strikes)>Use that subset for flow aggregation
-# 1. Find Dynamic ATM Strike (per timestamp)
+# 1. Find Dynamic ATM Strike (per Datetime)
 def get_atm(df):
     df["diff"] = (df["strike"] - df["spot"]).abs()
-    atm = df.loc[df.groupby("timestamp")["diff"].idxmin(), ["timestamp", "strike"]]
+    atm = df.loc[df.groupby("Datetime")["diff"].idxmin(), ["Datetime", "strike"]]
     atm = atm.rename(columns={"strike": "atm_strike"})
-    return df.merge(atm, on="timestamp", how="left")
+    return df.merge(atm, on="Datetime", how="left")
 df = get_atm(df)
 #Sanity checks ATM Contract
-strike_atm = df[df["strike"] == df["atm_strike"]][["timestamp","strike" ,"oi_PE","oi_change_PE","oi_pe_roll","oi_CE", "oi_change_CE","oi_ce_roll","true_bias","regime"]]  
+strike_atm = df[df["strike"] == df["atm_strike"]][["Datetime","strike" ,"oi_PE","oi_change_PE","oi_pe_roll","oi_CE", "oi_change_CE","oi_ce_roll","true_bias","regime"]]  
 with st.expander("Sanity Check for ATM"):
     st.dataframe(strike_atm,width=1800,height=700)
 
@@ -325,7 +325,7 @@ df_filtered = df[df.apply(lambda x: x["strike"] in x["strike_range"], axis=1)]
 #     st.dataframe(df_filtered)
 
 # 👉 Aggregate across strikes first:
-time_df = df_filtered.groupby("timestamp").agg({
+time_df = df_filtered.groupby("Datetime").agg({
     "spot": "first",
     "max_pain": "first",
     "strike_range":"first",
