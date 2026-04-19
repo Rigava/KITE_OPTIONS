@@ -83,7 +83,7 @@ def combined_flow(row):
 def load_and_process(file, window):
     df = pd.read_csv(file)
     # Time + sort
-    # df["Datetime"] = pd.to_datetime(df["Datetime"])
+    df["Datetime"] = pd.to_datetime(df["Datetime"])
     df = df.sort_values(["strike", "Datetime"])
 
     # =========================
