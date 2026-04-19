@@ -80,8 +80,8 @@ def combined_flow(row):
 # LOAD + FEATURE ENGINEERING
 # =========================
 @st.cache_data
-def load_and_process(df, window):
-    # df = pd.read_csv(file)
+def load_and_process(file, window):
+    df = pd.read_csv(file)
     # Time + sort
     # df["timestamp"] = pd.to_datetime(df["timestamp"])
     df = df.sort_values(["strike", "Datetime"])
