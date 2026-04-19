@@ -142,7 +142,8 @@ def load_and_process(file, window):
     return df
 
 df = load_and_process(uploaded_file, window)
-
+with st.expander("Show uploaded"):
+    st.Dataframe(df)
 # =========================
 # STRIKE FILTER
 # =========================
@@ -190,6 +191,7 @@ def classify_regime(row):
         return "Bearish Pressure"
     else:
         return "Neutral / Chop"
+# ---------------ADDED REGIME -----------------------
 df['true_bias'] = df.apply(flow_bias,axis=1)
 df["regime"] = df.apply(classify_regime, axis=1)
 
@@ -301,9 +303,9 @@ def get_atm(df):
     return df.merge(atm, on="Datetime", how="left")
 df = get_atm(df)
 #Sanity checks ATM Contract
-strike_atm = df[df["strike"] == df["atm_strike"]][["Datetime","strike" ,"OI_PE","oi_change_PE","oi_pe_roll","OI_CE", "oi_change_CE","oi_ce_roll","true_bias","regime"]]  
-with st.expander("Sanity Check for ATM"):
-    st.dataframe(strike_atm,width=1800,height=700)
+# strike_atm = df[df["strike"] == df["atm_strike"]][["Datetime","strike" ,"OI_PE","oi_change_PE","oi_pe_roll","OI_CE", "oi_change_CE","oi_ce_roll","true_bias","regime"]]  
+# with st.expander("Sanity Check for ATM"):
+#     st.dataframe(strike_atm,width=1800,height=700)
 
 
 # 2. Create Dynamic Strike Range (ATM ± N strikes)
