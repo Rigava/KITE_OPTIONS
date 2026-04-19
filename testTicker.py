@@ -276,7 +276,7 @@ latest = df[df.Datetime == df.Datetime.max()]
 spot = latest["spot"].iloc[0]
 max_pain = latest["max_pain"].iloc[0]
 chain = latest.sort_values("strike")
-chain = chain[["flow_ce","oi_CE","oi_ce_roll","ltp_CE","price_ce_roll","strike","flow_pe","ltp_PE","price_pe_roll","oi_PE","oi_pe_roll"]]
+chain = chain[["flow_ce","OI_CE","oi_ce_roll","Close_CE","price_ce_roll","strike","flow_pe","Close_PE","price_pe_roll","OI_PE","oi_pe_roll"]]
 def highlight_levels(row):
     if row["strike"] == max_pain:
         return ["background-color: purple"] * len(row)
@@ -301,7 +301,7 @@ def get_atm(df):
     return df.merge(atm, on="Datetime", how="left")
 df = get_atm(df)
 #Sanity checks ATM Contract
-strike_atm = df[df["strike"] == df["atm_strike"]][["Datetime","strike" ,"oi_PE","oi_change_PE","oi_pe_roll","oi_CE", "oi_change_CE","oi_ce_roll","true_bias","regime"]]  
+strike_atm = df[df["strike"] == df["atm_strike"]][["Datetime","strike" ,"OI_PE","oi_change_PE","oi_pe_roll","OI_CE", "oi_change_CE","oi_ce_roll","true_bias","regime"]]  
 with st.expander("Sanity Check for ATM"):
     st.dataframe(strike_atm,width=1800,height=700)
 
