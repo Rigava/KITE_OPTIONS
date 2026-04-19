@@ -80,22 +80,21 @@ def combined_flow(row):
 # LOAD + FEATURE ENGINEERING
 # =========================
 @st.cache_data
-def load_and_process(file, window):
-
-    df = pd.read_csv(file)
-
+def load_and_process(df, window):
+    # df = pd.read_csv(file)
     # Time + sort
-    df["timestamp"] = pd.to_datetime(df["timestamp"])
-    df = df.sort_values(["strike", "timestamp"])
+    # df["timestamp"] = pd.to_datetime(df["timestamp"])
+    df = df.sort_values(["strike", "Datetime"])
 
     # =========================
     # DELTA CALCULATIONS
     # =========================
-    df["oi_change_CE"] = df.groupby("strike")["oi_CE"].diff()
-    df["price_change_CE"] = df.groupby("strike")["ltp_CE"].diff()
+    df["oi_change_CE"] = df.groupby("strike")["OI_CE"].diff()
+    df["price_change_CE"] = df.groupby("strike")["Close_CE"].diff()
 
-    df["oi_change_PE"] = df.groupby("strike")["oi_PE"].diff()
-    df["price_change_PE"] = df.groupby("strike")["ltp_PE"].diff()
+    df["oi_change_PE"] = df.groupby("strike")["OI_PE"].diff()
+    df["price_change_PE"] = df.groupby("strike")["Close_PE"].diff()
+
 
     # Fill initial NaN
     df.fillna(0, inplace=True)
