@@ -309,28 +309,28 @@ df = get_atm(df)
 
 
 # 2. Create Dynamic Strike Range (ATM ± N strikes)
-N = 2
-    # Get sorted unique strikes
-strikes = sorted(df["strike"].unique())
-    # Map strike to index
-strike_to_idx = {s: i for i, s in enumerate(strikes)}
-def get_strike_range(row):
-    idx = strike_to_idx[row["atm_strike"]]
-    low = max(0, idx - N)
-    high = min(len(strikes) - 1, idx + N)
-    return strikes[low:high+1]
+# N = 2
+#     # Get sorted unique strikes
+# strikes = sorted(df["strike"].unique())
+#     # Map strike to index
+# strike_to_idx = {s: i for i, s in enumerate(strikes)}
+# def get_strike_range(row):
+#     idx = strike_to_idx[row["atm_strike"]]
+#     low = max(0, idx - N)
+#     high = min(len(strikes) - 1, idx + N)
+#     return strikes[low:high+1]
     # Apply
-df["strike_range"] = df.apply(get_strike_range, axis=1)
+# df["strike_range"] = df.apply(get_strike_range, axis=1)
 # 3. Filter Only Relevant Strikes
-df_filtered = df[df.apply(lambda x: x["strike"] in x["strike_range"], axis=1)]
+# df_filtered = df[df.apply(lambda x: x["strike"] in x["strike_range"], axis=1)]
 # with st.expander("Filtered DF based on ATM strikes"):
 #     st.dataframe(df_filtered)
 
 # 👉 Aggregate across strikes first:
-time_df = df_filtered.groupby("Datetime").agg({
-    "spot": "first",
-    "max_pain": "first",
-    "strike_range":"first",
+time_df = df.groupby("Datetime").agg({
+    # "spot": "first",
+    # "max_pain": "first",
+    # "strike_range":"first",
     "oi_ce_roll": "sum",
     "price_ce_roll":"sum",
     "oi_pe_roll": "sum",
