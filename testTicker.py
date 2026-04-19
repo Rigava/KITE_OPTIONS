@@ -143,7 +143,7 @@ def load_and_process(file, window):
 
 df = load_and_process(uploaded_file, window)
 with st.expander("Show uploaded"):
-    st.Dataframe(df)
+    st.dataframe(df)
 # =========================
 # STRIKE FILTER
 # =========================
