@@ -331,12 +331,14 @@ time_df = df.groupby("Datetime").agg({
     # "spot": "first",
     # "max_pain": "first",
     # "strike_range":"first",
+    'OI_CE': "sum",
+    'OI_PE': "sum",
     "oi_ce_roll": "sum",
     "price_ce_roll":"sum",
     "oi_pe_roll": "sum",
     "price_pe_roll":"sum"
-
 }).reset_index()
+time_df['pcr'] = time_df["OI_PE"] / time_df["OI_CE"]
 time_df["flow_ce"] = time_df.apply(classify_flow_ce,axis=1)
 time_df["flow_pe"] = time_df.apply(classify_flow_pe,axis=1)
 # time_df["net_flow"] = time_df["call_score"] + time_df["put_score"]
