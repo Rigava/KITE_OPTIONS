@@ -83,7 +83,10 @@ def combined_flow(row):
 def load_and_process(file, window):
     df = pd.read_csv(file)
     # Time + sort
-    df["Datetime"] = pd.to_datetime(df["Datetime"])
+    # df["Datetime"] = pd.to_datetime(df["Datetime"])
+    df['Datetime'] = pd.to_datetime(df['Datetime'], utc=True) \
+                    .dt.tz_convert('Asia/Kolkata') \
+                    .dt.tz_localize(None)
     df = df.sort_values(["strike", "Datetime"])
 
     # =========================
