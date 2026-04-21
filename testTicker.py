@@ -262,15 +262,15 @@ st.plotly_chart(fig2, width='stretch')
 # =========================
 # HEATMAP (PUT OI FLOW)
 # =========================
-heatmap = df.pivot_table(
-    index="Datetime",
-    columns="strike",
-    values="oi_pe_roll",
-    aggfunc="sum"
-)
+# heatmap = df.pivot_table(
+#     index="Datetime",
+#     columns="strike",
+#     values="oi_pe_roll",
+#     aggfunc="sum"
+# )
 
-fig2 = px.imshow(heatmap.T, aspect="auto", title="Put OI Heatmap")
-st.plotly_chart(fig2, use_container_width=True)
+# fig2 = px.imshow(heatmap.T, aspect="auto", title="Put OI Heatmap")
+# st.plotly_chart(fig2, use_container_width=True)
 
 # =========================
 # FLOW TIMELINE
@@ -379,12 +379,7 @@ with st.expander("Aggregate strikes across Time"):
 
 # ---------------- CHARTS for Aggregated data---------------- #
 st.subheader(f"📊 ATM Trend - Historical")
-
-# strike_df_ce = df[(df["strike"] == selected_strikes) & (df["type"] == "CE")].sort_values("Datetime")
-# strike_df_pe = hist_df[(df["strike"] == selected_strikes) & (hist_df["type"] == "PE")].sort_values("Datetime")
-# if len(strike_df_ce) > 0:
 st.write(f"Price Trend for ALL ATM strike {selected_strikes}")
-
 fig3 = go.Figure()
 fig3.add_trace(go.Scatter(x=time_df["Datetime"], y=time_df["Close_CE"], name="Price CE"))
 fig3.add_trace(go.Scatter(x=time_df["Datetime"], y=time_df["Close_PE"], name="Price PE"))
