@@ -368,7 +368,8 @@ time_df = df.groupby("Datetime").agg({
     "oi_pe_roll": "sum",
     "price_pe_roll":"sum"
 }).reset_index()
-time_df['pcr'] = time_df["OI_PE"] / time_df["OI_CE"]
+time_df['select_pcr'] = time_df["OI_PE"] / time_df["OI_CE"]
+time_df['select_straddle']=time_df["Close_CE"]+time_df["Close_PE"]
 time_df["flow_ce"] = time_df.apply(classify_flow_ce,axis=1)
 time_df["flow_pe"] = time_df.apply(classify_flow_pe,axis=1)
 # time_df["net_flow"] = time_df["call_score"] + time_df["put_score"]
@@ -397,3 +398,11 @@ fig4.update_xaxes(rangebreaks=[dict(bounds=["sat", "mon"]),
                                dict(bounds=[15.5,9.25], pattern="hour")
                               ])
 st.plotly_chart(fig4, width='stretch')
+
+fig5 = go.Figure()
+fig5.add_trace(go.Scatter(x=time_df["Datetime"], y=time_df["select_pcr"], name="PCR"))
+fig5.add_trace(go.Scatter(x=time_df["Datetime"], y=time_df["select_straddle"], name="Close"))
+fig5.update_xaxes(rangebreaks=[dict(bounds=["sat", "mon"]),
+                               dict(bounds=[15.5,9.25], pattern="hour")
+                              ])
+st.plotly_chart(fig5, width='stretch')
