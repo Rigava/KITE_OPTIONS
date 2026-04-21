@@ -387,7 +387,7 @@ st.write(f"Price Trend for ALL ATM strike {selected_strikes}")
 
 fig3 = go.Figure()
 fig3.add_trace(go.Scatter(x=time_df["Datetime"], y=time_df["Close_CE"], name="Price CE"))
-fig3.add_trace(go.Scatter(x=time_df["Datetime"], y=time_["Close_PE"], name="Price PE"))
+fig3.add_trace(go.Scatter(x=time_df["Datetime"], y=time_df["Close_PE"], name="Price PE"))
 fig3.update_xaxes(rangebreaks=[dict(bounds=["sat", "mon"]),
                                dict(bounds=[15.5,9.25], pattern="hour")
                               ])
