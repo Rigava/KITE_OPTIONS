@@ -402,6 +402,15 @@ st.plotly_chart(fig4, width='stretch')
 fig5 = go.Figure()
 fig5.add_trace(go.Scatter(x=time_df["Datetime"], y=time_df["select_pcr"], name="PCR",yaxis="y1"))
 fig5.add_trace(go.Scatter(x=time_df["Datetime"], y=time_df["select_straddle"], name="Close",yaxis="y2"))
+# Layout with dual axis
+fig5.update_layout(
+    yaxis=dict(title="PCR"),
+    yaxis2=dict(
+        title="Straddle Price",
+        overlaying="y",
+        side="right"
+    )
+)
 fig5.update_xaxes(rangebreaks=[dict(bounds=["sat", "mon"]),
                                dict(bounds=[15.5,9.25], pattern="hour")
                               ])
