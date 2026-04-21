@@ -361,6 +361,8 @@ time_df = df.groupby("Datetime").agg({
     # "strike_range":"first",
     'OI_CE': "sum",
     'OI_PE': "sum",
+    "Close_CE":"sum",
+    "Close_PE":"sum",
     "oi_ce_roll": "sum",
     "price_ce_roll":"sum",
     "oi_pe_roll": "sum",
@@ -374,3 +376,29 @@ time_df["true_bias"] = time_df.apply(flow_bias, axis=1)
 time_df["regime"] = time_df.apply(classify_regime, axis=1)
 with st.expander("Aggregate strikes across Time"):
     st.dataframe(time_df)
+
+# ---------------- CHARTS for Aggregated data---------------- #
+st.subheader(f"📊 ATM Trend - Historical")
+
+# strike_df_ce = df[(df["strike"] == selected_strikes) & (df["type"] == "CE")].sort_values("Datetime")
+# strike_df_pe = hist_df[(df["strike"] == selected_strikes) & (hist_df["type"] == "PE")].sort_values("Datetime")
+# if len(strike_df_ce) > 0:
+st.write(f"Price Trend for ALL ATM strike {selected_strikes}")
+
+fig3 = go.Figure()
+fig3.add_trace(go.Scatter(x=time_df["Datetime"], y=time_df["Close_CE"], name="Price CE"))
+fig3.add_trace(go.Scatter(x=time_df["Datetime"], y=time_["Close_PE"], name="Price PE"))
+fig3.update_xaxes(rangebreaks=[dict(bounds=["sat", "mon"]),
+                               dict(bounds=[15.5,9.25], pattern="hour")
+                              ])
+st.plotly_chart(fig3, width='stretch')
+
+st.write(f"OI Trend for all atm strike {selected_strikes}")
+
+fig4 = go.Figure()
+fig4.add_trace(go.Scatter(x=time_df["Datetime"], y=time_df["OI_CE"], name="OI CE"))
+fig4.add_trace(go.Scatter(x=time_df["Datetime"], y=time_df["OI_PE"], name="OI PE"))
+fig4.update_xaxes(rangebreaks=[dict(bounds=["sat", "mon"]),
+                               dict(bounds=[15.5,9.25], pattern="hour")
+                              ])
+st.plotly_chart(fig4, width='stretch')
