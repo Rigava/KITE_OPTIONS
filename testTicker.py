@@ -148,14 +148,14 @@ df = load_and_process(uploaded_file, window)
 with st.expander("Show uploaded"):
     st.dataframe(df)
 # =========================
-# STRIKE FILTER
+# SIDEBAR SETTING - STRIKE FILTER
 # =========================
 strikes = sorted(df["strike"].unique())
 
 selected_strikes = st.sidebar.multiselect(
     "Select Strikes",
     strikes,
-    default=strikes[:min(3, len(strikes))]
+    default=strikes[:min(1, len(strikes))]
 )
 
 df = df[df["strike"].isin(selected_strikes)]
@@ -228,11 +228,37 @@ col4.metric("Gamma", df["gamma_state"].iloc[-1])
 # =========================
 # SPOT VS MAX PAIN
 # =========================
-fig1 = go.Figure()
-fig1.add_trace(go.Scatter(x=df["Datetime"], y=df["spot"], name="Spot"))
-fig1.add_trace(go.Scatter(x=df["Datetime"], y=df["max_pain"], name="Max Pain"))
+# fig1 = go.Figure()
+# fig1.add_trace(go.Scatter(x=df["Datetime"], y=df["spot"], name="Spot"))
+# fig1.add_trace(go.Scatter(x=df["Datetime"], y=df["max_pain"], name="Max Pain"))
+# st.plotly_chart(fig1, use_container_width=True)
 
-st.plotly_chart(fig1, use_container_width=True)
+# ---------------- CHARTS for Selected strikes---------------- #
+st.subheader(f"📊 Strike Trend - Historical")
+# strikes = hist_df['strike'].unique()
+# selected_strikes = st.selectbox("select the strike to display the trend",strikes)
+strike_df_ce = hist_df[(hist_df["strike"] == selected_strikes) & (hist_df["type"] == "CE")].sort_values("Datetime")
+strike_df_pe = hist_df[(hist_df["strike"] == selected_strikes) & (hist_df["type"] == "PE")].sort_values("Datetime")
+if len(strike_df_ce) > 0:
+    st.write(f"Price Trend for atm strike {selected_strikes}")
+
+    fig3 = go.Figure()
+    fig3.add_trace(go.Scatter(x=strike_df_ce["Datetime"], y=strike_df_ce["Close"], name="Price CE"))
+    fig3.add_trace(go.Scatter(x=strike_df_pe["Datetime"], y=strike_df_pe["Close"], name="Price PE"))
+    fig3.update_xaxes(rangebreaks=[dict(bounds=["sat", "mon"]),
+                                   dict(bounds=[15.5,9.25], pattern="hour")
+                                  ])
+    st.plotly_chart(fig3, width='stretch')
+
+    st.write(f"OI Trend for atm strike {selected_strikes}")
+
+    fig4 = go.Figure()
+    fig4.add_trace(go.Scatter(x=strike_df_ce["Datetime"], y=strike_df_ce["OI"], name="OI CE"))
+    fig4.add_trace(go.Scatter(x=strike_df_pe["Datetime"], y=strike_df_pe["OI"], name="OI PE"))
+    fig4.update_xaxes(rangebreaks=[dict(bounds=["sat", "mon"]),
+                                   dict(bounds=[15.5,9.25], pattern="hour")
+                                  ])
+    st.plotly_chart(fig4, width='stretch')
 
 # =========================
 # HEATMAP (PUT OI FLOW)
